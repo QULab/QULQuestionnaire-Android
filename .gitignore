@@ -30,6 +30,10 @@ default.properties
 #netbeans project files
 private/
 nbandroid/
+ant.properties
+build.xml
+proguard-project.txt
+project.properties
 
 # local configuration file (sdk path, etc)
 local.properties
