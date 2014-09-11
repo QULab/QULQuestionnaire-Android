@@ -23,7 +23,10 @@
 package de.tel.questionnaire.builder;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import de.tel.questionnaire.R;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,12 +66,29 @@ public abstract class QuestionLayoutBuilder {
   
   
   protected Context context;
-
+  
   public QuestionLayoutBuilder(Context context) {
     this.context = context;
   }
   
-  public abstract LinearLayout addQuestionLayout(LinearLayout ll, BasisQuestionEntity basis);
+  protected abstract LinearLayout addQuestionLayout(LinearLayout ll,
+                                                    BasisQuestionEntity basis,
+                                                    Button next);
+  
+  public LinearLayout createQuestionLayout(LinearLayout ll, BasisQuestionEntity basis) 
+  {
+    Button btn = new Button(context);
+    btn.setText(context.getString(R.string.question_next_btn));
+    btn.setId(QuestionnaireBuilder.BTN_NEXT_ID);
+    
+    if (basis.getRequired())
+      btn.setVisibility(View.INVISIBLE);
+    
+    addQuestionLayout(ll, basis, btn);
+    ll.addView(btn);
+    return ll;
+  }
+  
   public abstract String getType();
   
   protected BasisQuestionEntity getQuestion(JSONObject json) throws JSONException {

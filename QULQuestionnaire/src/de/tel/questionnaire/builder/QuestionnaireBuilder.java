@@ -40,6 +40,8 @@ import org.json.JSONObject;
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
 public class QuestionnaireBuilder {
+  
+  public static final Integer BTN_NEXT_ID = 1;
 
   private Context context;
   private Map<String, QuestionLayoutBuilder> layoutBuilders;
@@ -69,7 +71,10 @@ public class QuestionnaireBuilder {
     if (qlayoutBuilder == null) {
       qlayoutBuilder = new QuestionLayoutBuilder(context) {
         @Override
-        public LinearLayout addQuestionLayout(LinearLayout ll, BasisQuestionEntity basis) {
+        public LinearLayout addQuestionLayout(LinearLayout ll,
+                                              BasisQuestionEntity basis,
+                                              final Button next) {
+          next.setVisibility(View.VISIBLE);
           return ll;
         }
 
@@ -82,26 +87,27 @@ public class QuestionnaireBuilder {
     BasisQuestionEntity questionEntity = qlayoutBuilder.getQuestion(json);
     addTextView(ll, questionEntity.getQuestion(), 18);
     addTextView(ll, questionEntity.getInstruction(), 12);
-    qlayoutBuilder.addQuestionLayout(ll, questionEntity);
+    qlayoutBuilder.createQuestionLayout(ll, questionEntity);
     addButton(ll, array, step);
     return ll;
   }
   
   
   private void addButton(final LinearLayout ll, final JSONArray array, final int step) {
-    Button btn = new Button(context);
-    btn.setText(context.getString(R.string.question_next_btn));
+//    Button btn = new Button(context);
+//    btn.setText(context.getString(R.string.question_next_btn));
+    Button btn = (Button) ll.findViewById(BTN_NEXT_ID);
     btn.setOnClickListener(new View.OnClickListener() {
       public void onClick(View arg0) {
         ll.removeAllViews();
         try {
-          createQuestion(ll, array, step + 1); //recursion
+            createQuestion(ll, array, step + 1); //recursion
         } catch (JSONException ex) {
           Log.e(QuestionnaireBuilder.class.getName(), "Next click JSON exception", ex);
         }
       }
     });
-    ll.addView(btn);
+    //ll.addView(btn);
   }
   
   

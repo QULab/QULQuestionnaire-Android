@@ -24,9 +24,12 @@ package de.tel.questionnaire.builder;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.RadioOption;
 import de.tel.questionnaire.entities.RadioQuestionEntity;
@@ -48,7 +51,9 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
   }
   
   @Override
-  public LinearLayout addQuestionLayout(LinearLayout ll, BasisQuestionEntity basis) {
+  public LinearLayout addQuestionLayout(LinearLayout ll,
+                                        BasisQuestionEntity basis,
+                                        final Button next) {
       
     if (!basis.getType().equals(QUESTION_TYPE_RADIO))
       return ll;
@@ -68,6 +73,13 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
 //      radioBtn.setChecked(option.getOpDefault()); // set default 
       grp.addView(radioBtn);
     }
+    
+    grp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+      public void onCheckedChanged(RadioGroup arg0, int arg1) {
+        next.setVisibility(View.VISIBLE);
+      }
+    });
     
     ll.addView(grp);
     return ll;

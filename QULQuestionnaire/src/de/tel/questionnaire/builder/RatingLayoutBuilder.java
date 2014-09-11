@@ -23,9 +23,12 @@
 package de.tel.questionnaire.builder;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +47,7 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
   }
 
   @Override
-  public LinearLayout addQuestionLayout(LinearLayout ll, BasisQuestionEntity basis) {
+  public LinearLayout addQuestionLayout(LinearLayout ll, BasisQuestionEntity basis,final Button next) {
     
     if (!basis.getType().equals(QUESTION_TYPE_RATING))
       return ll;
@@ -53,6 +56,15 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
     ratingbar.setNumStars(5);
     ratingbar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
                                                LayoutParams.WRAP_CONTENT));
+    
+    ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+      public void onRatingChanged(RatingBar bar, float rating, boolean fromUser) {
+        Toast.makeText(context, Float.toString(rating), Toast.LENGTH_SHORT).show();
+        next.setVisibility(View.VISIBLE);
+      }
+    });
+    
     ll.addView(ratingbar);
     return ll;
   }

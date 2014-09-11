@@ -24,13 +24,16 @@ package de.tel.questionnaire.builder;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.CheckboxOption;
 import de.tel.questionnaire.entities.CheckboxQuestionEntity;
-import de.tel.questionnaire.entities.RadioOption;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +51,9 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
   }
   
   @Override
-  public LinearLayout addQuestionLayout(LinearLayout ll, BasisQuestionEntity basis) {
+  public LinearLayout addQuestionLayout(LinearLayout ll,
+                                        BasisQuestionEntity basis,
+                                        final Button next) {
     
     if (!basis.getType().equals(QUESTION_TYPE_CHECKBOX))
       return ll;
@@ -62,6 +67,13 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
       box.setSelected(option.getSelected());
       box.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                                                ViewGroup.LayoutParams.WRAP_CONTENT));
+      box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+          Toast.makeText(context, arg0.getText(), Toast.LENGTH_SHORT).show();
+          next.setVisibility(View.VISIBLE);
+        }
+      });
       ll.addView(box);
       
     }

@@ -23,6 +23,8 @@
 package de.tel.questionnaire.builder;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -47,7 +49,9 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
   }
   
   @Override
-  public LinearLayout addQuestionLayout(LinearLayout ll, BasisQuestionEntity basis) {
+  public LinearLayout addQuestionLayout(LinearLayout ll,
+                                        BasisQuestionEntity basis,
+                                        final Button next) {
     
     if (!basis.getType().equals(QUESTION_TYPE_SLIDER))
       return ll;
@@ -67,6 +71,7 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
         int progress = bar.getProgress();
         Toast.makeText(context, Integer.toString(progress), Toast.LENGTH_SHORT).show();
         sliderValue = progress;
+        next.setVisibility(View.VISIBLE);
       }
     });
     ll.addView(bar);
