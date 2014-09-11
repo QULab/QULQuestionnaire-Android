@@ -54,8 +54,13 @@ public abstract class QuestionLayoutBuilder {
   //JSON KEYS for CHECKBOX QUESTION
   protected static final String JSON_KEY_MAX_SELECTABLE = "maxSelectable";
   
-  //JSON KEYS for SLIDER
+  //JSON KEYS for SLIDER QUESTION
   protected static final String JSON_KEY_MAX_VALUE = "maxValue";
+  
+  //JSON KEYS for TEXT QUESTION
+  protected static final String JSON_KEY_INPUT = "input";
+  protected static final String JSON_TYPE_PLACEHOLDER = "placeholder";
+  
   
   protected Context context;
 
@@ -70,7 +75,7 @@ public abstract class QuestionLayoutBuilder {
     BasisQuestionEntity basis = new BasisQuestionEntity(json.getString(JSON_KEY_KEY),
                                                         json.getString(JSON_KEY_TYPE),
                                                         json.getString(JSON_KEY_QUESTION),
-                                                        json.getString(JSON_KEY_INSTRUCTION),
+                                                        json.optString(JSON_KEY_INSTRUCTION, ""),
                                                         json.getBoolean(JSON_KEY_REQUIRED));
     return basis;
   }

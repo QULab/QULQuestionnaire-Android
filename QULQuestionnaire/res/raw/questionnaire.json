@@ -110,6 +110,7 @@
         "type": "text",
         "question": "If you were less than totally satisfied, what could have been done to serve you better?",
         "placeholder": "",
+        "input": "email",
         "required": false
     },
      {

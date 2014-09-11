@@ -2,13 +2,13 @@ package de.tel.questionnaire;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.SeekBar;
 import de.tel.questionnaire.builder.CheckboxLayoutBuilder;
 import de.tel.questionnaire.builder.QuestionLayoutBuilder;
 import de.tel.questionnaire.builder.QuestionnaireBuilder;
 import de.tel.questionnaire.builder.RadioLayoutBuilder;
 import de.tel.questionnaire.builder.RatingLayoutBuilder;
 import de.tel.questionnaire.builder.SliderLayoutBuilder;
+import de.tel.questionnaire.builder.TextLayoutBuilder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +36,9 @@ public class MainQuestionnaire extends Activity {
     layoutBuilders.put(checkbox.getType(), checkbox);
     SliderLayoutBuilder slider = new SliderLayoutBuilder(this);
     layoutBuilders.put(slider.getType(), slider);
+    TextLayoutBuilder text = new TextLayoutBuilder(this);
+    layoutBuilders.put(text.getType(), text);
+    
     
     QuestionnaireBuilder builder = new QuestionnaireBuilder(this, layoutBuilders);
     try {
