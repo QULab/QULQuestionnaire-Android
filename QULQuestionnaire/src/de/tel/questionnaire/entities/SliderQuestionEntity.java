@@ -34,6 +34,11 @@ public class SliderQuestionEntity extends BasisQuestionEntity {
   private Boolean showSelectedValue;
   private Integer stepValue;
 
+  public SliderQuestionEntity(Float maxValue, BasisQuestionEntity basis) {
+    super(basis);
+    this.maxValue = maxValue;
+  }
+  
   public SliderQuestionEntity(Float minValue, Float maxValue, String minLabel, String maxLabel, Boolean showSelectedValue, Integer stepValue, BasisQuestionEntity basis) {
     super(basis);
     this.minValue = minValue;

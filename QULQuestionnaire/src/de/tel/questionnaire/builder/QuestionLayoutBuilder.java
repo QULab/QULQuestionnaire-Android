@@ -54,6 +54,9 @@ public abstract class QuestionLayoutBuilder {
   //JSON KEYS for CHECKBOX QUESTION
   protected static final String JSON_KEY_MAX_SELECTABLE = "maxSelectable";
   
+  //JSON KEYS for SLIDER
+  protected static final String JSON_KEY_MAX_VALUE = "maxValue";
+  
   protected Context context;
 
   public QuestionLayoutBuilder(Context context) {
