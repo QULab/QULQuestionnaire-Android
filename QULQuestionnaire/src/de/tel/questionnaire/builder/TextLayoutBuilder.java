@@ -23,14 +23,15 @@
 package de.tel.questionnaire.builder;
 
 import android.content.Context;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.TextQuestionEntity;
 import de.tel.questionnaire.util.AnswerLogging;
@@ -75,20 +76,21 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
 
     editText.setHint(textEntity.getPlaceHolder());
     editText.setInputType(INPUT_TYPES.get(textEntity.getInput()));
-    editText.addTextChangedListener(new TextWatcher() {
-      public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-      }
+    editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+    editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
-      public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-      }
-
-      public void afterTextChanged(Editable arg0) {
-        Toast.makeText(context, arg0.toString(), Toast.LENGTH_SHORT).show();
-        logging.addAnswer(textEntity.getQuestion(), arg0.toString());
-        next.setVisibility(View.VISIBLE);
+      public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+        if (arg1 == EditorInfo.IME_ACTION_DONE)
+        {
+          String text =  arg0.getText().toString();
+          Log.d(TextLayoutBuilder.class.getName(), text);
+          logging.addAnswer(textEntity.getQuestion(), arg0.toString());
+          next.setVisibility(View.VISIBLE);
+          return true;
+        }
+        return false;
       }
     });
-
     ll.addView(editText);
     return ll;
   }
