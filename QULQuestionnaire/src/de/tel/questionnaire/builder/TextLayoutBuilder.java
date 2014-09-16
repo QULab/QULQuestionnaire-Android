@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.TextQuestionEntity;
+import de.tel.questionnaire.util.AnswerLogging;
 import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,10 +56,10 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
     INPUT_TYPES.put(INPUT_TYPE_NUMBER, InputType.TYPE_CLASS_NUMBER);
   }
 
-  public TextLayoutBuilder(Context context) {
-    super(context);
+  public TextLayoutBuilder(Context context, AnswerLogging logging) {
+    super(context, logging);
   }
-
+  
   @Override
   public LinearLayout addQuestionLayout(LinearLayout ll,
           BasisQuestionEntity basis,
@@ -69,7 +70,7 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
       return ll;
     }
 
-    TextQuestionEntity textEntity = (TextQuestionEntity) basis;
+    final TextQuestionEntity textEntity = (TextQuestionEntity) basis;
     EditText editText = new EditText(context);
 
     editText.setHint(textEntity.getPlaceHolder());
@@ -83,6 +84,7 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
 
       public void afterTextChanged(Editable arg0) {
         Toast.makeText(context, arg0.toString(), Toast.LENGTH_SHORT).show();
+        logging.addAnswer(textEntity.getQuestion(), arg0.toString());
         next.setVisibility(View.VISIBLE);
       }
     });

@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import de.tel.questionnaire.R;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
+import de.tel.questionnaire.util.AnswerLogging;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -66,9 +67,11 @@ public abstract class QuestionLayoutBuilder {
   
   
   protected Context context;
+  protected AnswerLogging logging;
   
-  public QuestionLayoutBuilder(Context context) {
+  public QuestionLayoutBuilder(Context context, AnswerLogging logging) {
     this.context = context;
+    this.logging = logging;
   }
   
   protected abstract LinearLayout addQuestionLayout(LinearLayout ll,

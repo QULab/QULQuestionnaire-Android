@@ -30,6 +30,7 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.SliderQuestionEntity;
+import de.tel.questionnaire.util.AnswerLogging;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,10 +44,12 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
   
   
   private int sliderValue;
-  
-  public SliderLayoutBuilder(Context context) {
-    super(context);
+
+  public SliderLayoutBuilder(Context context, AnswerLogging logging) {
+    super(context, logging);
   }
+  
+  
   
   @Override
   public LinearLayout addQuestionLayout(LinearLayout ll,
@@ -56,7 +59,7 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
     if (!basis.getType().equals(QUESTION_TYPE_SLIDER))
       return ll;
     
-    SliderQuestionEntity sliderQuestion = (SliderQuestionEntity) basis;
+    final SliderQuestionEntity sliderQuestion = (SliderQuestionEntity) basis;
     SeekBar bar = new SeekBar(context);
     bar.setMax((int) Math.round(sliderQuestion.getMaxValue()));
     bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -71,6 +74,7 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
         int progress = bar.getProgress();
         Toast.makeText(context, Integer.toString(progress), Toast.LENGTH_SHORT).show();
         sliderValue = progress;
+        logging.addAnswer(sliderQuestion.getQuestion(), Integer.toString(progress));
         next.setVisibility(View.VISIBLE);
       }
     });

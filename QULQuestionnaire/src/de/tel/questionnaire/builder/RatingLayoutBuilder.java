@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
+import de.tel.questionnaire.util.AnswerLogging;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,13 +42,13 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
 
   
   public static final String QUESTION_TYPE_RATING = "smiley";
-  
-  public RatingLayoutBuilder(Context context) {
-    super(context);
+
+  public RatingLayoutBuilder(Context context, AnswerLogging logging) {
+    super(context, logging);
   }
 
   @Override
-  public LinearLayout addQuestionLayout(LinearLayout ll, BasisQuestionEntity basis,final Button next) {
+  public LinearLayout addQuestionLayout(LinearLayout ll, final BasisQuestionEntity basis,final Button next) {
     
     if (!basis.getType().equals(QUESTION_TYPE_RATING))
       return ll;
@@ -60,7 +61,9 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
     ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
       public void onRatingChanged(RatingBar bar, float rating, boolean fromUser) {
-        Toast.makeText(context, Float.toString(rating), Toast.LENGTH_SHORT).show();
+        String rate = Float.toString(rating);
+        Toast.makeText(context, rate, Toast.LENGTH_SHORT).show();
+        logging.addAnswer(basis.getQuestion(), rate);
         next.setVisibility(View.VISIBLE);
       }
     });

@@ -34,6 +34,7 @@ import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.CheckboxOption;
 import de.tel.questionnaire.entities.CheckboxQuestionEntity;
+import de.tel.questionnaire.util.AnswerLogging;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,8 +47,8 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
 
   public static final String QUESTION_TYPE_CHECKBOX = "checkbox";
 
-  public CheckboxLayoutBuilder(Context context) {
-    super(context);
+  public CheckboxLayoutBuilder(Context context, AnswerLogging logging) {
+    super(context, logging);
   }
   
   @Override
@@ -58,7 +59,7 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
     if (!basis.getType().equals(QUESTION_TYPE_CHECKBOX))
       return ll;
     
-    CheckboxQuestionEntity entity = (CheckboxQuestionEntity) basis;
+    final CheckboxQuestionEntity entity = (CheckboxQuestionEntity) basis;
     CheckboxOption[] options = entity.getOptions();
     
     for (CheckboxOption option : options) {
@@ -71,7 +72,9 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
 
         public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
           Toast.makeText(context, arg0.getText(), Toast.LENGTH_SHORT).show();
+          logging.addAnswer(entity.getQuestion(), arg0.getText().toString());
           next.setVisibility(View.VISIBLE);
+          
         }
       });
       ll.addView(box);

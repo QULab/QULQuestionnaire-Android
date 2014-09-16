@@ -22,7 +22,9 @@
  */
 package de.tel.questionnaire.builder;
 
+import android.app.Activity;
 import android.content.Context;
+import android.database.CursorJoiner;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.tel.questionnaire.R;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
+import de.tel.questionnaire.util.AnswerLogging;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,10 +48,12 @@ public class QuestionnaireBuilder {
 
   private Context context;
   private Map<String, QuestionLayoutBuilder> layoutBuilders;
+  private AnswerLogging logging;
 
-  public QuestionnaireBuilder(Context context, Map<String, QuestionLayoutBuilder> layoutBuilders) {
+  public QuestionnaireBuilder(AnswerLogging logging, Context context, Map<String, QuestionLayoutBuilder> layoutBuilders) {
     this.context = context;
     this.layoutBuilders = layoutBuilders;
+    this.logging = logging;
   }
 
   public View createQuestion(JSONArray array) throws JSONException {
@@ -63,13 +68,15 @@ public class QuestionnaireBuilder {
 
   private View createQuestion(final LinearLayout ll, final JSONArray array, final int step) throws JSONException {
     if (array.length() == step) { //anchor
+      //finish activity
+      ((Activity) context).finish();
       return ll;
     }
 
     JSONObject json = (JSONObject) array.getJSONObject(step);
     QuestionLayoutBuilder qlayoutBuilder = layoutBuilders.get(json.getString(QuestionLayoutBuilder.JSON_KEY_TYPE));
     if (qlayoutBuilder == null) {
-      qlayoutBuilder = new QuestionLayoutBuilder(context) {
+      qlayoutBuilder = new QuestionLayoutBuilder(context, logging) {
         @Override
         public LinearLayout addQuestionLayout(LinearLayout ll,
                                               BasisQuestionEntity basis,

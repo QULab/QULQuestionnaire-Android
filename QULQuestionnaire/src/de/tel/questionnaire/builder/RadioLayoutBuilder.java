@@ -33,6 +33,7 @@ import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.RadioOption;
 import de.tel.questionnaire.entities.RadioQuestionEntity;
+import de.tel.questionnaire.util.AnswerLogging;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,9 +46,9 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
 
   
   public static final String QUESTION_TYPE_RADIO = "radio";
-  
-  public RadioLayoutBuilder(Context context) {
-    super(context);
+
+  public RadioLayoutBuilder(Context context, AnswerLogging logging) {
+    super(context, logging);
   }
   
   @Override
@@ -58,7 +59,7 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
     if (!basis.getType().equals(QUESTION_TYPE_RADIO))
       return ll;
     
-    RadioQuestionEntity radioQuestion = (RadioQuestionEntity) basis;
+    final RadioQuestionEntity radioQuestion = (RadioQuestionEntity) basis;
     RadioGroup grp = new RadioGroup(context);
    
     String orientation = radioQuestion.getOrientation();
@@ -77,6 +78,11 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
     grp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
       public void onCheckedChanged(RadioGroup arg0, int arg1) {
+        int radioButtonID = arg0.getCheckedRadioButtonId();
+        RadioButton v = (RadioButton) arg0.findViewById(radioButtonID);
+        String text = v.getText().toString();
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+        logging.addAnswer(radioQuestion.getQuestion(), text);
         next.setVisibility(View.VISIBLE);
       }
     });
