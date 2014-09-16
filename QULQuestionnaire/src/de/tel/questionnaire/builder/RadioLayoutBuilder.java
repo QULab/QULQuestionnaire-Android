@@ -81,7 +81,7 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
         RadioButton v = (RadioButton) arg0.findViewById(radioButtonID);
         String idx = Integer.toString(arg0.indexOfChild(v));
         Log.d(RadioLayoutBuilder.class.getName(), idx);
-        logging.addAnswer(radioQuestion.getQuestion(), idx);
+        logging.addAnswer(radioQuestion.getKey(), idx);
         next.setVisibility(View.VISIBLE);
       }
     });

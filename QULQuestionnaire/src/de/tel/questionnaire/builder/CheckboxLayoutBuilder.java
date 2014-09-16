@@ -71,7 +71,7 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
 
         public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
           Log.d(CheckboxLayoutBuilder.class.getName(), arg0.getText().toString());
-          logging.addAnswer(entity.getQuestion(), arg0.getText().toString());
+          logging.addAnswer(entity.getKey(), arg0.getText().toString());
           next.setVisibility(View.VISIBLE);
           
         }

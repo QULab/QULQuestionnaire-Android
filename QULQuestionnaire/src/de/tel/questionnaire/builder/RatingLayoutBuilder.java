@@ -63,7 +63,7 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
       public void onRatingChanged(RatingBar bar, float rating, boolean fromUser) {
         String rate = Float.toString(rating);
         Log.d(RatingLayoutBuilder.class.getName(), rate);
-        logging.addAnswer(basis.getQuestion(), rate);
+        logging.addAnswer(basis.getKey(), rate);
         next.setVisibility(View.VISIBLE);
       }
     });

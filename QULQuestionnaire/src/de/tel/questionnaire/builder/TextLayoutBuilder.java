@@ -83,7 +83,7 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
         if (arg1 == EditorInfo.IME_ACTION_DONE)
         {
           String text =  arg0.getText().toString();
-          submitText(textEntity.getQuestion(), text, next);
+          submitText(textEntity.getKey(), text, next);
           next.callOnClick();
           return true;
         }

@@ -73,7 +73,7 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
         int progress = bar.getProgress();
         Log.d(SliderLayoutBuilder.class.getName(), Integer.toString(progress));
         sliderValue = progress;
-        logging.addAnswer(sliderQuestion.getQuestion(), Integer.toString(progress));
+        logging.addAnswer(sliderQuestion.getKey(), Integer.toString(progress));
         next.setVisibility(View.VISIBLE);
       }
     });
