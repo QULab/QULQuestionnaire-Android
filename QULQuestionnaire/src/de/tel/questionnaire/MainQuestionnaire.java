@@ -26,7 +26,7 @@ import org.json.JSONException;
 public class MainQuestionnaire extends Activity {
 
   
-    AnswerLogger logger = new AnswerLogger();
+  AnswerLogger logger = new AnswerLogger();
   /**
    * Called when the activity is first created.
    */

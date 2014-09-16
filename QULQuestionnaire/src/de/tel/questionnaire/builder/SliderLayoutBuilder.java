@@ -23,11 +23,11 @@
 package de.tel.questionnaire.builder;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.SliderQuestionEntity;
 import de.tel.questionnaire.util.AnswerLogging;
@@ -41,7 +41,6 @@ import org.json.JSONObject;
 public class SliderLayoutBuilder extends QuestionLayoutBuilder {
 
   public static final String QUESTION_TYPE_SLIDER = "slider";
-  
   
   private int sliderValue;
 
@@ -72,7 +71,7 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
 
       public void onStopTrackingTouch(SeekBar bar) {
         int progress = bar.getProgress();
-        Toast.makeText(context, Integer.toString(progress), Toast.LENGTH_SHORT).show();
+        Log.d(SliderLayoutBuilder.class.getName(), Integer.toString(progress));
         sliderValue = progress;
         logging.addAnswer(sliderQuestion.getQuestion(), Integer.toString(progress));
         next.setVisibility(View.VISIBLE);

@@ -23,12 +23,12 @@
 package de.tel.questionnaire.builder;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.util.AnswerLogging;
 import org.json.JSONException;
@@ -62,7 +62,7 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
 
       public void onRatingChanged(RatingBar bar, float rating, boolean fromUser) {
         String rate = Float.toString(rating);
-        Toast.makeText(context, rate, Toast.LENGTH_SHORT).show();
+        Log.d(RatingLayoutBuilder.class.getName(), rate);
         logging.addAnswer(basis.getQuestion(), rate);
         next.setVisibility(View.VISIBLE);
       }

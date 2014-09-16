@@ -30,7 +30,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.CheckboxOption;
 import de.tel.questionnaire.entities.CheckboxQuestionEntity;
@@ -71,7 +70,7 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
       box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
         public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-          Toast.makeText(context, arg0.getText(), Toast.LENGTH_SHORT).show();
+          Log.d(CheckboxLayoutBuilder.class.getName(), arg0.getText().toString());
           logging.addAnswer(entity.getQuestion(), arg0.getText().toString());
           next.setVisibility(View.VISIBLE);
           

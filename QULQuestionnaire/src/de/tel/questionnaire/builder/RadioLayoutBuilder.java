@@ -81,7 +81,7 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
         int radioButtonID = arg0.getCheckedRadioButtonId();
         RadioButton v = (RadioButton) arg0.findViewById(radioButtonID);
         String text = v.getText().toString();
-        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+        Log.d(RadioLayoutBuilder.class.getName(), text);
         logging.addAnswer(radioQuestion.getQuestion(), text);
         next.setVisibility(View.VISIBLE);
       }
