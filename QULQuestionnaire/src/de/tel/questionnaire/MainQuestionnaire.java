@@ -26,6 +26,7 @@ public class MainQuestionnaire extends Activity {
 
   
   AnswerLogger logger = new AnswerLogger();
+  Questionnaire quest = null;
   /**
    * Called when the activity is first created.
    */
@@ -45,7 +46,7 @@ public class MainQuestionnaire extends Activity {
     layoutBuilders.put(text.getType(), text);
     
     
-    Questionnaire builder = new Questionnaire(logger, this, layoutBuilders);
+    quest = new Questionnaire(logger, this, layoutBuilders);
     try {
       super.onCreate(savedInstanceState);
       InputStream stream = getResources().openRawResource(R.raw.questionnaire);
@@ -57,7 +58,7 @@ public class MainQuestionnaire extends Activity {
       }
 
       JSONArray array = new JSONArray(strBuilder.toString());
-      setContentView(builder.createQuestion(array));
+      setContentView(quest.createQuestion(array));
     } catch (JSONException ex) {
       Logger.getLogger(MainQuestionnaire.class.getName()).log(Level.SEVERE, null, ex);
     } catch (IOException ex) {
@@ -68,6 +69,10 @@ public class MainQuestionnaire extends Activity {
   @Override
   protected void onDestroy() {
     logger.setEnd();
+    if (quest != null && quest.isFinished()) {
+      Log.d(MainQuestionnaire.class.getName(), "Questionnaire was finished successfully!");
+      //do stuff
+    }
     Log.d(MainQuestionnaire.class.getName(), logger.getAnswerLog());
     super.onDestroy();
   }
