@@ -79,9 +79,9 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
       public void onCheckedChanged(RadioGroup arg0, int arg1) {
         int radioButtonID = arg0.getCheckedRadioButtonId();
         RadioButton v = (RadioButton) arg0.findViewById(radioButtonID);
-        String text = v.getText().toString();
-        Log.d(RadioLayoutBuilder.class.getName(), text);
-        logging.addAnswer(radioQuestion.getQuestion(), text);
+        String idx = Integer.toString(arg0.indexOfChild(v));
+        Log.d(RadioLayoutBuilder.class.getName(), idx);
+        logging.addAnswer(radioQuestion.getQuestion(), idx);
         next.setVisibility(View.VISIBLE);
       }
     });
