@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with QUe. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.tel.questionnaire.builder;
+package de.tel.questionnaire.layout;
 
 import android.content.Context;
 import android.util.Log;
@@ -38,13 +38,13 @@ import org.json.JSONObject;
  *
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
-public class SliderLayoutBuilder extends QuestionLayoutBuilder {
+public class SliderLayout extends QuestionLayout {
 
   public static final String QUESTION_TYPE_SLIDER = "slider";
   
   private String answer;
   
-  public SliderLayoutBuilder(Context context, AnswerLogging logging) {
+  public SliderLayout(Context context, AnswerLogging logging) {
     super(context, logging);
   }
   
@@ -71,7 +71,7 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
 
       public void onStopTrackingTouch(SeekBar bar) {
         int progress = bar.getProgress();
-        Log.d(SliderLayoutBuilder.class.getName(), Integer.toString(progress));
+        Log.d(SliderLayout.class.getName(), Integer.toString(progress));
         answer = Integer.toString(progress);
 //        logging.addAnswer(sliderQuestion.getKey(), Integer.toString(progress));
         next.setVisibility(View.VISIBLE);

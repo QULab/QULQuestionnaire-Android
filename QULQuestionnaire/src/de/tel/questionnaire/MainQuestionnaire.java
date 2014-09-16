@@ -3,13 +3,13 @@ package de.tel.questionnaire;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import de.tel.questionnaire.builder.CheckboxLayoutBuilder;
-import de.tel.questionnaire.builder.QuestionLayoutBuilder;
-import de.tel.questionnaire.builder.QuestionnaireBuilder;
-import de.tel.questionnaire.builder.RadioLayoutBuilder;
-import de.tel.questionnaire.builder.RatingLayoutBuilder;
-import de.tel.questionnaire.builder.SliderLayoutBuilder;
-import de.tel.questionnaire.builder.TextLayoutBuilder;
+import de.tel.questionnaire.layout.CheckboxLayout;
+import de.tel.questionnaire.layout.QuestionLayout;
+import de.tel.questionnaire.layout.Questionnaire;
+import de.tel.questionnaire.layout.RadioLayout;
+import de.tel.questionnaire.layout.RatingLayout;
+import de.tel.questionnaire.layout.SliderLayout;
+import de.tel.questionnaire.layout.TextLayout;
 import de.tel.questionnaire.util.AnswerLogger;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,20 +32,20 @@ public class MainQuestionnaire extends Activity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     logger.setStart();
-    Map<String, QuestionLayoutBuilder> layoutBuilders = new HashMap<String, QuestionLayoutBuilder>();
-    RadioLayoutBuilder r = new RadioLayoutBuilder(this, logger);
+    Map<String, QuestionLayout> layoutBuilders = new HashMap<String, QuestionLayout>();
+    RadioLayout r = new RadioLayout(this, logger);
     layoutBuilders.put(r.getType(), r);
-    RatingLayoutBuilder rating = new RatingLayoutBuilder(this, logger);
+    RatingLayout rating = new RatingLayout(this, logger);
     layoutBuilders.put(rating.getType(), rating);
-    CheckboxLayoutBuilder checkbox = new CheckboxLayoutBuilder(this, logger);
+    CheckboxLayout checkbox = new CheckboxLayout(this, logger);
     layoutBuilders.put(checkbox.getType(), checkbox);
-    SliderLayoutBuilder slider = new SliderLayoutBuilder(this, logger);
+    SliderLayout slider = new SliderLayout(this, logger);
     layoutBuilders.put(slider.getType(), slider);
-    TextLayoutBuilder text = new TextLayoutBuilder(this, logger);
+    TextLayout text = new TextLayout(this, logger);
     layoutBuilders.put(text.getType(), text);
     
     
-    QuestionnaireBuilder builder = new QuestionnaireBuilder(logger, this, layoutBuilders);
+    Questionnaire builder = new Questionnaire(logger, this, layoutBuilders);
     try {
       super.onCreate(savedInstanceState);
       InputStream stream = getResources().openRawResource(R.raw.questionnaire);

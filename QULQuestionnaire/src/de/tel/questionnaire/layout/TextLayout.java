@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with QUe. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.tel.questionnaire.builder;
+package de.tel.questionnaire.layout;
 
 import android.content.Context;
 import android.text.Editable;
@@ -45,7 +45,7 @@ import org.json.JSONObject;
  *
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
-public class TextLayoutBuilder extends QuestionLayoutBuilder {
+public class TextLayout extends QuestionLayout {
 
   public static final String QUESTION_TYPE_TEXT = "text";
   protected static final String INPUT_TYPE_TEXT = "text";
@@ -60,7 +60,7 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
     INPUT_TYPES.put(INPUT_TYPE_NUMBER, InputType.TYPE_CLASS_NUMBER);
   }
 
-  public TextLayoutBuilder(Context context, AnswerLogging logging) {
+  public TextLayout(Context context, AnswerLogging logging) {
     super(context, logging);
   }
 
@@ -109,7 +109,7 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
   }
 
   private void submitText(String question, String value, final Button next) {
-    Log.d(TextLayoutBuilder.class.getName(), value);
+    Log.d(TextLayout.class.getName(), value);
 //    logging.addAnswer(question, value);
     answer = value;
     next.setVisibility(View.VISIBLE);

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with QUe. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.tel.questionnaire.builder;
+package de.tel.questionnaire.layout;
 
 import android.content.Context;
 import android.util.Log;
@@ -43,12 +43,12 @@ import org.json.JSONObject;
  *
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
-public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
+public class CheckboxLayout extends QuestionLayout {
 
   public static final String QUESTION_TYPE_CHECKBOX = "checkbox";
 
   private ArrayList<String> answers;
-  public CheckboxLayoutBuilder(Context context, AnswerLogging logging) {
+  public CheckboxLayout(Context context, AnswerLogging logging) {
     super(context, logging);
     answers = new ArrayList<String>();
   }
@@ -73,7 +73,7 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
       box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
         public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-          Log.d(CheckboxLayoutBuilder.class.getName(), arg0.getText().toString());
+          Log.d(CheckboxLayout.class.getName(), arg0.getText().toString());
 //          logging.addAnswer(entity.getKey(), arg0.getText().toString());
           answers.add(arg0.getText().toString());
           next.setVisibility(View.VISIBLE);
@@ -126,7 +126,7 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
                                      obj.getString(JSON_KEY_KEY),
                                      obj.getString(JSON_KEY_VALUE));
       } catch (JSONException ex) {
-        Log.e(QuestionnaireBuilder.class.getName(), "JSONException in createCheckboxOptions", ex);
+        Log.e(Questionnaire.class.getName(), "JSONException in createCheckboxOptions", ex);
       }
     }
     return options;

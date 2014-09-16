@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with QUe. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.tel.questionnaire.builder;
+package de.tel.questionnaire.layout;
 
 import android.content.Context;
 import android.view.View;
@@ -36,7 +36,7 @@ import org.json.JSONObject;
  *
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
-public abstract class QuestionLayoutBuilder {
+public abstract class QuestionLayout {
   
   
   //JSON KEYS for BASIS QUESTION
@@ -69,7 +69,7 @@ public abstract class QuestionLayoutBuilder {
   protected Context context;
   protected AnswerLogging logging;
   
-  public QuestionLayoutBuilder(Context context, AnswerLogging logging) {
+  public QuestionLayout(Context context, AnswerLogging logging) {
     this.context = context;
     this.logging = logging;
   }
@@ -82,7 +82,7 @@ public abstract class QuestionLayoutBuilder {
   {
     Button btn = new Button(context);
     btn.setText(context.getString(R.string.question_next_btn));
-    btn.setId(QuestionnaireBuilder.BTN_NEXT_ID);
+    btn.setId(Questionnaire.BTN_NEXT_ID);
     
     if (basis.getRequired())
       btn.setVisibility(View.INVISIBLE);

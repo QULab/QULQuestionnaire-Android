@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with QUe. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.tel.questionnaire.builder;
+package de.tel.questionnaire.layout;
 
 import android.content.Context;
 import android.util.Log;
@@ -38,13 +38,13 @@ import org.json.JSONObject;
  *
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
-public class RatingLayoutBuilder extends QuestionLayoutBuilder {
+public class RatingLayout extends QuestionLayout {
 
   
   public static final String QUESTION_TYPE_RATING = "smiley";
   private String answer;
   
-  public RatingLayoutBuilder(Context context, AnswerLogging logging) {
+  public RatingLayout(Context context, AnswerLogging logging) {
     super(context, logging);
   }
 
@@ -63,7 +63,7 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
 
       public void onRatingChanged(RatingBar bar, float rating, boolean fromUser) {
         String rate = Float.toString(rating);
-        Log.d(RatingLayoutBuilder.class.getName(), rate);
+        Log.d(RatingLayout.class.getName(), rate);
         answer = rate;
 //        logging.addAnswer(basis.getKey(), rate);
         next.setVisibility(View.VISIBLE);

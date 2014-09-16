@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with QUe. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.tel.questionnaire.builder;
+package de.tel.questionnaire.layout;
 
 import android.content.Context;
 import android.util.Log;
@@ -41,13 +41,13 @@ import org.json.JSONObject;
  *
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
-public class RadioLayoutBuilder extends QuestionLayoutBuilder {
+public class RadioLayout extends QuestionLayout {
 
   
   public static final String QUESTION_TYPE_RADIO = "radio";
   private String answer;
   
-  public RadioLayoutBuilder(Context context, AnswerLogging logging) {
+  public RadioLayout(Context context, AnswerLogging logging) {
     super(context, logging);
   }
   
@@ -81,7 +81,7 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
         int radioButtonID = arg0.getCheckedRadioButtonId();
         RadioButton v = (RadioButton) arg0.findViewById(radioButtonID);
         String idx = Integer.toString(arg0.indexOfChild(v));
-        Log.d(RadioLayoutBuilder.class.getName(), idx);
+        Log.d(RadioLayout.class.getName(), idx);
         answer = idx;
 //        logging.addAnswer(radioQuestion.getKey(), idx);
         next.setVisibility(View.VISIBLE);
@@ -130,7 +130,7 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
                                      obj.getString(JSON_KEY_KEY),
                                      obj.getString(JSON_KEY_VALUE));
       } catch (JSONException ex) {
-        Log.e(QuestionnaireBuilder.class.getName(), "JSONException in createRadioOptions", ex);
+        Log.e(Questionnaire.class.getName(), "JSONException in createRadioOptions", ex);
       }
     }
     return options;

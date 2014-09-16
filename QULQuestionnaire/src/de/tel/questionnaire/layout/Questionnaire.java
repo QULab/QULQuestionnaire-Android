@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with QUe. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.tel.questionnaire.builder;
+package de.tel.questionnaire.layout;
 
 import android.app.Activity;
 import android.content.Context;
@@ -40,14 +40,15 @@ import org.json.JSONObject;
  *
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
-public class QuestionnaireBuilder {
+public class Questionnaire {
 
   public static final Integer BTN_NEXT_ID = 0xFF231;
   private Context context;
-  private Map<String, QuestionLayoutBuilder> layoutBuilders;
+  private Map<String, QuestionLayout> layoutBuilders;
   private AnswerLogging logging;
+  private boolean finished = false;
 
-  public QuestionnaireBuilder(AnswerLogging logging, Context context, Map<String, QuestionLayoutBuilder> layoutBuilders) {
+  public Questionnaire(AnswerLogging logging, Context context, Map<String, QuestionLayout> layoutBuilders) {
     this.context = context;
     this.layoutBuilders = layoutBuilders;
     this.logging = logging;
@@ -63,17 +64,22 @@ public class QuestionnaireBuilder {
     return createQuestion(ll, array, 0);
   }
 
+  public boolean isFinished() {
+    return finished;
+  }
+
   private View createQuestion(final LinearLayout ll, final JSONArray array, final int step) throws JSONException {
     if (array.length() == step) { //anchor
       //finish activity
+      finished = true;
       ((Activity) context).finish();
       return ll;
     }
 
     JSONObject json = (JSONObject) array.getJSONObject(step);
-    QuestionLayoutBuilder qlayoutBuilder = layoutBuilders.get(json.getString(QuestionLayoutBuilder.JSON_KEY_TYPE));
+    QuestionLayout qlayoutBuilder = layoutBuilders.get(json.getString(QuestionLayout.JSON_KEY_TYPE));
     if (qlayoutBuilder == null) {
-      qlayoutBuilder = new QuestionLayoutBuilder(context, logging) {
+      qlayoutBuilder = new QuestionLayout(context, logging) {
         @Override
         public LinearLayout addQuestionLayout(LinearLayout ll,
                 BasisQuestionEntity basis,
@@ -101,7 +107,7 @@ public class QuestionnaireBuilder {
     return ll;
   }
 
-  private void addButton(final QuestionLayoutBuilder layoutBuilder,
+  private void addButton(final QuestionLayout layoutBuilder,
                          final BasisQuestionEntity entity,
                          final LinearLayout ll,
                          final JSONArray array,
@@ -114,7 +120,7 @@ public class QuestionnaireBuilder {
         try {
           createQuestion(ll, array, step + 1); //recursion
         } catch (JSONException ex) {
-          Log.e(QuestionnaireBuilder.class.getName(), "Next click JSON exception", ex);
+          Log.e(Questionnaire.class.getName(), "Next click JSON exception", ex);
         }
       }
     });
