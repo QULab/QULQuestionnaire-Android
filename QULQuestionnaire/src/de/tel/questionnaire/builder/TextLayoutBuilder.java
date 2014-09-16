@@ -23,7 +23,9 @@
 package de.tel.questionnaire.builder;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -51,7 +53,7 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
   protected static final String INPUT_TYPE_NUMBER = "number";
   private static final HashMap<String, Integer> INPUT_TYPES = new HashMap<String, Integer>();
   private String answer;
-  
+
   static {
     INPUT_TYPES.put(INPUT_TYPE_TEXT, InputType.TYPE_CLASS_TEXT);
     INPUT_TYPES.put(INPUT_TYPE_EMAIL, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -61,7 +63,7 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
   public TextLayoutBuilder(Context context, AnswerLogging logging) {
     super(context, logging);
   }
-  
+
   @Override
   public LinearLayout addQuestionLayout(LinearLayout ll,
           BasisQuestionEntity basis,
@@ -79,11 +81,9 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
     editText.setInputType(INPUT_TYPES.get(textEntity.getInput()));
     editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
     editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
       public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
-        if (arg1 == EditorInfo.IME_ACTION_DONE)
-        {
-          String text =  arg0.getText().toString();
+        if (arg1 == EditorInfo.IME_ACTION_DONE) {
+          String text = arg0.getText().toString();
           submitText(textEntity.getKey(), text, next);
           next.callOnClick();
           return true;
@@ -91,6 +91,19 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
         return false;
       }
     });
+
+    editText.addTextChangedListener(new TextWatcher() {
+      public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+      }
+
+      public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+      }
+
+      public void afterTextChanged(Editable arg0) {
+        submitText(textEntity.getKey(), arg0.toString(), next);
+      }
+    });
+
     ll.addView(editText);
     return ll;
   }
@@ -101,7 +114,7 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
     answer = value;
     next.setVisibility(View.VISIBLE);
   }
-  
+
   @Override
   public String getType() {
     return QUESTION_TYPE_TEXT;
