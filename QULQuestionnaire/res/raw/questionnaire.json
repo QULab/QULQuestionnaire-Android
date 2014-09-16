@@ -9,7 +9,7 @@
     {
         "key": "radio1",
         "type": "radio",
-        "orientation": 1,
+        "orientation": "vertical",
         "question": "During your most recent purchase, how did you contact us?",
         "instruction": "Please select one option.",
         "required": true,
@@ -116,7 +116,7 @@
      {
      "key": "radio2",
      "type": "radio",
-     "orientation": 0,
+     "orientation": "horizontal",
      "question": "I found suitable information to help me with my query.",
      "instruction": "Please rate on a scale from 1 (strongly agree) to 5 (strongly disagree).",
      "required": true,

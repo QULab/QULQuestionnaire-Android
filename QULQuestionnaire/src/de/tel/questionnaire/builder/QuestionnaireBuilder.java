@@ -44,7 +44,7 @@ import org.json.JSONObject;
  */
 public class QuestionnaireBuilder {
   
-  public static final Integer BTN_NEXT_ID = 1;
+  public static final Integer BTN_NEXT_ID = 0xFF231;
 
   private Context context;
   private Map<String, QuestionLayoutBuilder> layoutBuilders;

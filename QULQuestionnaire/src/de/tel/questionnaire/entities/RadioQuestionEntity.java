@@ -29,7 +29,7 @@ package de.tel.questionnaire.entities;
 public class RadioQuestionEntity extends BasisQuestionEntity {
 
   public static final String HORIZONTAL = "horizontal";
-  public static final String VERTICAL = "horizontal";
+  public static final String VERTICAL = "vertical";
   
   private String orientation;
   private Boolean randomized;
