@@ -23,7 +23,9 @@
 package de.tel.questionnaire.builder;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -83,9 +85,8 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
         if (arg1 == EditorInfo.IME_ACTION_DONE)
         {
           String text =  arg0.getText().toString();
-          Log.d(TextLayoutBuilder.class.getName(), text);
-          logging.addAnswer(textEntity.getQuestion(), arg0.toString());
-          next.setVisibility(View.VISIBLE);
+          submitText(textEntity.getQuestion(), text, next);
+          next.callOnClick();
           return true;
         }
         return false;
@@ -95,6 +96,12 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
     return ll;
   }
 
+  private void submitText(String question, String value, final Button next) {
+    Log.d(TextLayoutBuilder.class.getName(), value);
+    logging.addAnswer(question, value);
+    next.setVisibility(View.VISIBLE);
+  }
+  
   @Override
   public String getType() {
     return QUESTION_TYPE_TEXT;
