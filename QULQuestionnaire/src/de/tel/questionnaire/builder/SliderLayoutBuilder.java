@@ -42,8 +42,8 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
 
   public static final String QUESTION_TYPE_SLIDER = "slider";
   
-  private int sliderValue;
-
+  private String answer;
+  
   public SliderLayoutBuilder(Context context, AnswerLogging logging) {
     super(context, logging);
   }
@@ -72,8 +72,8 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
       public void onStopTrackingTouch(SeekBar bar) {
         int progress = bar.getProgress();
         Log.d(SliderLayoutBuilder.class.getName(), Integer.toString(progress));
-        sliderValue = progress;
-        logging.addAnswer(sliderQuestion.getKey(), Integer.toString(progress));
+        answer = Integer.toString(progress);
+//        logging.addAnswer(sliderQuestion.getKey(), Integer.toString(progress));
         next.setVisibility(View.VISIBLE);
       }
     });
@@ -86,6 +86,11 @@ public class SliderLayoutBuilder extends QuestionLayoutBuilder {
     return QUESTION_TYPE_SLIDER;
   }
 
+  @Override
+  public String getLastGivenAnswer() {
+    return answer;
+  }
+  
   @Override
   protected BasisQuestionEntity getQuestion(JSONObject json) throws JSONException {
     BasisQuestionEntity basis = super.getQuestion(json);

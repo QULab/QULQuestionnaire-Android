@@ -34,6 +34,7 @@ import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.CheckboxOption;
 import de.tel.questionnaire.entities.CheckboxQuestionEntity;
 import de.tel.questionnaire.util.AnswerLogging;
+import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,8 +47,10 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
 
   public static final String QUESTION_TYPE_CHECKBOX = "checkbox";
 
+  private ArrayList<String> answers;
   public CheckboxLayoutBuilder(Context context, AnswerLogging logging) {
     super(context, logging);
+    answers = new ArrayList<String>();
   }
   
   @Override
@@ -71,7 +74,8 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
 
         public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
           Log.d(CheckboxLayoutBuilder.class.getName(), arg0.getText().toString());
-          logging.addAnswer(entity.getKey(), arg0.getText().toString());
+//          logging.addAnswer(entity.getKey(), arg0.getText().toString());
+          answers.add(arg0.getText().toString());
           next.setVisibility(View.VISIBLE);
           
         }
@@ -87,6 +91,15 @@ public class CheckboxLayoutBuilder extends QuestionLayoutBuilder {
     return QUESTION_TYPE_CHECKBOX;
   }
 
+  @Override
+  public String getLastGivenAnswer() {
+    JSONArray array = new JSONArray();
+    for (String str : answers) {
+      array.put(str);
+    }
+    return array.toString();
+  }
+  
   @Override
   protected BasisQuestionEntity getQuestion(JSONObject json) throws JSONException {
     BasisQuestionEntity basis = super.getQuestion(json);

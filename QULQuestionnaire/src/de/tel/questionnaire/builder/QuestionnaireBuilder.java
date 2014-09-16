@@ -41,9 +41,8 @@ import org.json.JSONObject;
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
 public class QuestionnaireBuilder {
-  
-  public static final Integer BTN_NEXT_ID = 0xFF231;
 
+  public static final Integer BTN_NEXT_ID = 0xFF231;
   private Context context;
   private Map<String, QuestionLayoutBuilder> layoutBuilders;
   private AnswerLogging logging;
@@ -77,10 +76,15 @@ public class QuestionnaireBuilder {
       qlayoutBuilder = new QuestionLayoutBuilder(context, logging) {
         @Override
         public LinearLayout addQuestionLayout(LinearLayout ll,
-                                              BasisQuestionEntity basis,
-                                              final Button next) {
+                BasisQuestionEntity basis,
+                final Button next) {
           next.setVisibility(View.VISIBLE);
           return ll;
+        }
+
+        @Override
+        public String getLastGivenAnswer() {
+          return "";
         }
 
         @Override
@@ -93,29 +97,29 @@ public class QuestionnaireBuilder {
     addTextView(ll, questionEntity.getQuestion(), 18);
     addTextView(ll, questionEntity.getInstruction(), 12);
     qlayoutBuilder.createQuestionLayout(ll, questionEntity);
-    addButton(ll, array, step);
+    addButton(qlayoutBuilder, questionEntity, ll, array, step);
     return ll;
   }
-  
-  
-  private void addButton(final LinearLayout ll, final JSONArray array, final int step) {
-//    Button btn = new Button(context);
-//    btn.setText(context.getString(R.string.question_next_btn));
+
+  private void addButton(final QuestionLayoutBuilder layoutBuilder,
+                         final BasisQuestionEntity entity,
+                         final LinearLayout ll,
+                         final JSONArray array,
+                         final int step) {
     Button btn = (Button) ll.findViewById(BTN_NEXT_ID);
     btn.setOnClickListener(new View.OnClickListener() {
       public void onClick(View arg0) {
+        logging.addAnswer(entity.getKey(), layoutBuilder.getLastGivenAnswer());
         ll.removeAllViews();
         try {
-            createQuestion(ll, array, step + 1); //recursion
+          createQuestion(ll, array, step + 1); //recursion
         } catch (JSONException ex) {
           Log.e(QuestionnaireBuilder.class.getName(), "Next click JSON exception", ex);
         }
       }
     });
-    //ll.addView(btn);
   }
-  
-  
+
   private void addTextView(LinearLayout ll, String content, int textSize) {
     TextView view = new TextView(context);
     view.setText(content);

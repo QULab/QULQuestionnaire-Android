@@ -45,7 +45,8 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
 
   
   public static final String QUESTION_TYPE_RADIO = "radio";
-
+  private String answer;
+  
   public RadioLayoutBuilder(Context context, AnswerLogging logging) {
     super(context, logging);
   }
@@ -81,7 +82,8 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
         RadioButton v = (RadioButton) arg0.findViewById(radioButtonID);
         String idx = Integer.toString(arg0.indexOfChild(v));
         Log.d(RadioLayoutBuilder.class.getName(), idx);
-        logging.addAnswer(radioQuestion.getKey(), idx);
+        answer = idx;
+//        logging.addAnswer(radioQuestion.getKey(), idx);
         next.setVisibility(View.VISIBLE);
       }
     });
@@ -94,6 +96,13 @@ public class RadioLayoutBuilder extends QuestionLayoutBuilder {
   public String getType() {
     return QUESTION_TYPE_RADIO;
   }
+
+  @Override
+  public String getLastGivenAnswer() {
+    return answer;
+  }
+  
+  
   
   @Override
   protected BasisQuestionEntity getQuestion(JSONObject json) throws JSONException {

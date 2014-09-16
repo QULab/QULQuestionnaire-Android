@@ -42,7 +42,8 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
 
   
   public static final String QUESTION_TYPE_RATING = "smiley";
-
+  private String answer;
+  
   public RatingLayoutBuilder(Context context, AnswerLogging logging) {
     super(context, logging);
   }
@@ -63,7 +64,8 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
       public void onRatingChanged(RatingBar bar, float rating, boolean fromUser) {
         String rate = Float.toString(rating);
         Log.d(RatingLayoutBuilder.class.getName(), rate);
-        logging.addAnswer(basis.getKey(), rate);
+        answer = rate;
+//        logging.addAnswer(basis.getKey(), rate);
         next.setVisibility(View.VISIBLE);
       }
     });
@@ -76,8 +78,11 @@ public class RatingLayoutBuilder extends QuestionLayoutBuilder {
   public String getType() {
     return QUESTION_TYPE_RATING;
   }
-  
-  
+
+  @Override
+  public String getLastGivenAnswer() {
+    return answer;
+  }
   
   @Override
   protected BasisQuestionEntity getQuestion(JSONObject json) throws JSONException {

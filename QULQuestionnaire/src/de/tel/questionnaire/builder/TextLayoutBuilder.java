@@ -50,7 +50,8 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
   protected static final String INPUT_TYPE_EMAIL = "email";
   protected static final String INPUT_TYPE_NUMBER = "number";
   private static final HashMap<String, Integer> INPUT_TYPES = new HashMap<String, Integer>();
-
+  private String answer;
+  
   static {
     INPUT_TYPES.put(INPUT_TYPE_TEXT, InputType.TYPE_CLASS_TEXT);
     INPUT_TYPES.put(INPUT_TYPE_EMAIL, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -96,13 +97,19 @@ public class TextLayoutBuilder extends QuestionLayoutBuilder {
 
   private void submitText(String question, String value, final Button next) {
     Log.d(TextLayoutBuilder.class.getName(), value);
-    logging.addAnswer(question, value);
+//    logging.addAnswer(question, value);
+    answer = value;
     next.setVisibility(View.VISIBLE);
   }
   
   @Override
   public String getType() {
     return QUESTION_TYPE_TEXT;
+  }
+
+  @Override
+  public String getLastGivenAnswer() {
+    return answer;
   }
 
   @Override

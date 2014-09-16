@@ -93,6 +93,7 @@ public abstract class QuestionLayoutBuilder {
   }
   
   public abstract String getType();
+  public abstract String getLastGivenAnswer();
   
   protected BasisQuestionEntity getQuestion(JSONObject json) throws JSONException {
     BasisQuestionEntity basis = new BasisQuestionEntity(json.getString(JSON_KEY_KEY),
