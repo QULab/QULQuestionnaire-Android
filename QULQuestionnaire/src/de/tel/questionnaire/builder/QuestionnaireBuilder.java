@@ -24,13 +24,11 @@ package de.tel.questionnaire.builder;
 
 import android.app.Activity;
 import android.content.Context;
-import android.database.CursorJoiner;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.tel.questionnaire.R;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.util.AnswerLogging;
 import java.util.Map;

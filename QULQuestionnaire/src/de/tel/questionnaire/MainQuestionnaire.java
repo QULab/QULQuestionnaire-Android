@@ -3,7 +3,6 @@ package de.tel.questionnaire;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 import de.tel.questionnaire.builder.CheckboxLayoutBuilder;
 import de.tel.questionnaire.builder.QuestionLayoutBuilder;
 import de.tel.questionnaire.builder.QuestionnaireBuilder;

@@ -29,7 +29,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.RadioOption;
 import de.tel.questionnaire.entities.RadioQuestionEntity;
