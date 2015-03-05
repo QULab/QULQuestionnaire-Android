@@ -25,11 +25,9 @@ import org.json.JSONException;
 public class MainQuestionnaire extends Activity {
 
   
-  AnswerLogger logger = new AnswerLogger();
-  Questionnaire quest = null;
-  /**
-   * Called when the activity is first created.
-   */
+  protected AnswerLogger logger = new AnswerLogger();
+  protected Questionnaire quest = null;
+  
   @Override
   public void onCreate(Bundle savedInstanceState) {
     logger.setStart();
