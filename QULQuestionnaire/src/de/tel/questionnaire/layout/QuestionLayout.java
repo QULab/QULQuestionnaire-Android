@@ -100,7 +100,7 @@ public abstract class QuestionLayout {
                                                         json.getString(JSON_KEY_TYPE),
                                                         json.getString(JSON_KEY_QUESTION),
                                                         json.optString(JSON_KEY_INSTRUCTION, ""),
-                                                        json.getBoolean(JSON_KEY_REQUIRED));
+                                                        json.optBoolean(JSON_KEY_REQUIRED));
     return basis;
   }
   
