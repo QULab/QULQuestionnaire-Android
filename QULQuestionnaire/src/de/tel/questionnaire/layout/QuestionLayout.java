@@ -51,6 +51,8 @@ public abstract class QuestionLayout {
   protected static final String JSON_KEY_RANDOMIZED = "randomized";
   protected static final String JSON_KEY_OTHER = "other";
   protected static final String JSON_KEY_OPTIONS = "options";
+  protected static final String JSON_KEY_MIN_LABEL = "minLabel";
+  protected static final String JSON_KEY_MAX_LABEL = "maxLabel";
   //JSON KEYS for RADIO QUESTION OPTION
   protected static final String JSON_KEY_VALUE = "value";
   protected static final String JSON_KEY_DEFAULT = "default";

@@ -28,37 +28,57 @@ package de.tel.questionnaire.entities;
  */
 public class RadioQuestionEntity extends BasisQuestionEntity {
 
-  public static final String HORIZONTAL = "horizontal";
-  public static final String VERTICAL = "vertical";
+  public static final Integer HORIZONTAL = 0;//"horizontal";
+  public static final Integer VERTICAL = 1;//"vertical";
   
-  private String orientation;
+  private Integer orientation;
   private Boolean randomized;
   private Boolean other;
+  private String minLabel;
+  private String maxLabel;
   private RadioOption[] options;
 
-  public RadioQuestionEntity(String orientation, Boolean randomized, Boolean other, RadioOption[] options, BasisQuestionEntity basis) {
+  public RadioQuestionEntity(Integer orientation, Boolean randomized, Boolean other, String minLabel, String maxLabel, RadioOption[] options, BasisQuestionEntity basis) {
     super(basis);
     this.orientation = orientation;
     this.randomized = randomized;
     this.other = other;
+    this.minLabel = minLabel;;
+    this.maxLabel = maxLabel;
     this.options = options;
   }
-  
-  
 
-  public RadioQuestionEntity(String orientation, Boolean randomized, Boolean other, RadioOption[] options, String key, String type, String question, String instruction, Boolean required) {
+  public RadioQuestionEntity(Integer orientation, Boolean randomized, Boolean other, String minLabel, String maxLabel, RadioOption[] options, String key, String type, String question, String instruction, Boolean required) {
     super(key, type, question, instruction, required);
     this.orientation = orientation;
     this.randomized = randomized;
     this.other = other;
+    this.minLabel = minLabel;
+    this.maxLabel = maxLabel;
     this.options = options;
   }
 
-  public String getOrientation() {
+  public String getMinLabel() {
+    return minLabel;
+  }
+
+  public void setMinLabel(String minLabel) {
+    this.minLabel = minLabel;
+  }
+
+  public String getMaxLabel() {
+    return maxLabel;
+  }
+
+  public void setMaxLabel(String maxLabel) {
+    this.maxLabel = maxLabel;
+  }
+
+  public Integer getOrientation() {
     return orientation;
   }
 
-  public void setOrientation(String orientation) {
+  public void setOrientation(Integer orientation) {
     this.orientation = orientation;
   }
 

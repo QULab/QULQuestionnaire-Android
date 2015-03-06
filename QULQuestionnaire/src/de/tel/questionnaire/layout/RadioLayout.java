@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.RadioOption;
 import de.tel.questionnaire.entities.RadioQuestionEntity;
@@ -59,13 +60,17 @@ public class RadioLayout extends QuestionLayout {
     if (!basis.getType().equals(QUESTION_TYPE_RADIO))
       return ll;
     
+    LinearLayout radioLayout = new LinearLayout(context);
     final RadioQuestionEntity radioQuestion = (RadioQuestionEntity) basis;
     RadioGroup grp = new RadioGroup(context);
    
-    String orientation = radioQuestion.getOrientation();
+    Integer orientation = radioQuestion.getOrientation();
     
-    if (orientation.equals(RadioQuestionEntity.HORIZONTAL))
+    if (orientation.equals(RadioQuestionEntity.HORIZONTAL)) {
+      radioLayout.setOrientation(LinearLayout.HORIZONTAL);
+      addTextViewToLayout(radioLayout, radioQuestion.getMinLabel(), context);
       grp.setOrientation(RadioGroup.HORIZONTAL);
+    }
     
     RadioOption[] options = radioQuestion.getOptions();
     for (RadioOption option : options) {
@@ -88,10 +93,20 @@ public class RadioLayout extends QuestionLayout {
       }
     });
     
-    ll.addView(grp);
+    radioLayout.addView(grp);
+    if (orientation.equals(RadioQuestionEntity.HORIZONTAL)) {
+      addTextViewToLayout(radioLayout, radioQuestion.getMaxLabel(), context);
+    }
+    ll.addView(radioLayout);
     return ll;
   }
 
+  private void addTextViewToLayout(LinearLayout ll, String text, Context ctx) {
+    TextView textView = new TextView(context);
+    textView.setText(text);
+    ll.addView(textView);
+  }
+  
   @Override
   public String getType() {
     return QUESTION_TYPE_RADIO;
@@ -112,9 +127,11 @@ public class RadioLayout extends QuestionLayout {
   
   private RadioQuestionEntity createRadioQuestionEntity(JSONObject json, BasisQuestionEntity basis) throws JSONException {
     JSONArray options = json.getJSONArray(JSON_KEY_OPTIONS);
-    RadioQuestionEntity radio = new RadioQuestionEntity(json.getString(JSON_KEY_ORIENTATION),
+    RadioQuestionEntity radio = new RadioQuestionEntity(json.getInt(JSON_KEY_ORIENTATION),
                                                         json.getBoolean(JSON_KEY_RANDOMIZED),
                                                         json.optBoolean(JSON_KEY_OTHER, false), 
+                                                        json.optString(JSON_KEY_MIN_LABEL, null), 
+                                                        json.optString(JSON_KEY_MAX_LABEL, null),
                                                         createRadioOptions(options),
                                                         basis);
     return radio;
