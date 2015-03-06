@@ -24,6 +24,8 @@ package de.tel.questionnaire.layout;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,11 +43,12 @@ import org.json.JSONObject;
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
 public class Questionnaire {
-
+  
+  public static final String PREF_KEY_QUESTIONNAIRE_FINISHED = "questionnaire_complete";
   public static final Integer BTN_NEXT_ID = 0xFF231;
-  private Context context;
-  private Map<String, QuestionLayout> layoutBuilders;
-  private AnswerLogging logging;
+  private final Context context;
+  private final Map<String, QuestionLayout> layoutBuilders;
+  private final AnswerLogging logging;
   private boolean finished = false;
 
   public Questionnaire(AnswerLogging logging, Context context, Map<String, QuestionLayout> layoutBuilders) {
@@ -72,6 +75,8 @@ public class Questionnaire {
     if (array.length() == step) { //anchor
       //finish activity
       finished = true;
+      SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+      preferences.edit().putBoolean(PREF_KEY_QUESTIONNAIRE_FINISHED, true).apply();
       ((Activity) context).finish();
       return ll;
     }
@@ -120,7 +125,7 @@ public class Questionnaire {
         try {
           createQuestion(ll, array, step + 1); //recursion
         } catch (JSONException ex) {
-          Log.e(Questionnaire.class.getName(), "Next click JSON exception", ex);
+          Log.e(Questionnaire.class.getName(), ex.getMessage(), ex);
         }
       }
     });
