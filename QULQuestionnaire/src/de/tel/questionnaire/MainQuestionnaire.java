@@ -67,9 +67,11 @@ public class MainQuestionnaire extends Activity {
   @Override
   protected void onDestroy() {
     logger.setEnd();
-    if (quest != null && quest.isFinished()) {
-      Log.d(MainQuestionnaire.class.getName(), "Questionnaire was finished successfully!");
-      //do stuff
+    if (quest != null && quest.isFinished())
+    {
+      Log.d(MainQuestionnaire.class.getName(), getString(R.string.log_quest_finished));
+    } else {
+      Log.d(MainQuestionnaire.class.getName(), getString(R.string.log_quest_canceled));
     }
     Log.d(MainQuestionnaire.class.getName(), logger.getAnswerLog());
     super.onDestroy();
