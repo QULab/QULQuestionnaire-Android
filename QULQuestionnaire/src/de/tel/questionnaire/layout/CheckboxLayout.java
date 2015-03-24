@@ -34,7 +34,8 @@ import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.entities.CheckboxOption;
 import de.tel.questionnaire.entities.CheckboxQuestionEntity;
 import de.tel.questionnaire.util.AnswerLogging;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,10 +48,14 @@ public class CheckboxLayout extends QuestionLayout {
 
   public static final String QUESTION_TYPE_CHECKBOX = "checkbox";
 
-  private ArrayList<String> answers;
+  /**
+   * Contains the check box answers which are clicked by the user.
+   */
+  private final Set<String> answers;
+  
   public CheckboxLayout(Context context, AnswerLogging logging) {
     super(context, logging);
-    answers = new ArrayList<String>();
+    answers = new HashSet<String>();
   }
   
   @Override
@@ -72,16 +77,21 @@ public class CheckboxLayout extends QuestionLayout {
                                                ViewGroup.LayoutParams.WRAP_CONTENT));
       box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-        public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+        public void onCheckedChanged(CompoundButton arg0, boolean isChecked) {
           Log.d(CheckboxLayout.class.getName(), arg0.getText().toString());
-//          logging.addAnswer(entity.getKey(), arg0.getText().toString());
-          answers.add(arg0.getText().toString());
-          next.setVisibility(View.VISIBLE);
+          if (isChecked)
+            answers.add(arg0.getText().toString());
+          else
+            answers.remove(arg0.getText().toString());
+          
+          if (answers.size() > 0)
+            next.setVisibility(View.VISIBLE);
+          else
+            next.setVisibility(View.GONE);
           
         }
       });
       ll.addView(box);
-      
     }
     return ll;
   }
