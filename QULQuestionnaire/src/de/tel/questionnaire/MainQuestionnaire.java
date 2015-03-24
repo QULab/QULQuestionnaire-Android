@@ -31,17 +31,17 @@ public class MainQuestionnaire extends Activity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     logger.setStart();
-    Map<String, QuestionLayout> layoutBuilders = new HashMap<String, QuestionLayout>();
+    Map<String, Class<? extends QuestionLayout>> layoutBuilders = new HashMap<String, Class<? extends QuestionLayout>>();
     RadioLayout r = new RadioLayout(this, logger);
-    layoutBuilders.put(r.getType(), r);
+    layoutBuilders.put(r.getType(), RadioLayout.class);
     RatingLayout rating = new RatingLayout(this, logger);
-    layoutBuilders.put(rating.getType(), rating);
+    layoutBuilders.put(rating.getType(), RatingLayout.class);
     CheckboxLayout checkbox = new CheckboxLayout(this, logger);
-    layoutBuilders.put(checkbox.getType(), checkbox);
+    layoutBuilders.put(checkbox.getType(), CheckboxLayout.class);
     SliderLayout slider = new SliderLayout(this, logger);
-    layoutBuilders.put(slider.getType(), slider);
+    layoutBuilders.put(slider.getType(), SliderLayout.class);
     TextLayout text = new TextLayout(this, logger);
-    layoutBuilders.put(text.getType(), text);
+    layoutBuilders.put(text.getType(), TextLayout.class);
     
     
     quest = new Questionnaire(logger, this, layoutBuilders);
@@ -60,6 +60,8 @@ public class MainQuestionnaire extends Activity {
     } catch (JSONException ex) {
       Logger.getLogger(MainQuestionnaire.class.getName()).log(Level.SEVERE, null, ex);
     } catch (IOException ex) {
+      Logger.getLogger(MainQuestionnaire.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
       Logger.getLogger(MainQuestionnaire.class.getName()).log(Level.SEVERE, null, ex);
     }
   }

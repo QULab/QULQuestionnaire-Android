@@ -33,7 +33,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.tel.questionnaire.entities.BasisQuestionEntity;
 import de.tel.questionnaire.util.AnswerLogging;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,17 +51,17 @@ public class Questionnaire {
   public static final String PREF_KEY_QUESTIONNAIRE_FINISHED = "questionnaire_complete";
   public static final Integer BTN_NEXT_ID = 0xFF231;
   private final Context context;
-  private final Map<String, QuestionLayout> layoutBuilders;
+  private final Map<String, Class<? extends QuestionLayout>> layoutBuilders;
   private final AnswerLogging logging;
   private boolean finished = false;
 
-  public Questionnaire(AnswerLogging logging, Context context, Map<String, QuestionLayout> layoutBuilders) {
+  public Questionnaire(AnswerLogging logging, Context context, Map<String, Class<? extends QuestionLayout>> layoutBuilders) {
     this.context = context;
     this.layoutBuilders = layoutBuilders;
     this.logging = logging;
   }
 
-  public View createQuestion(JSONArray array) throws JSONException {
+  public View createQuestion(JSONArray array) throws JSONException, InstantiationException {
     final LinearLayout ll = new LinearLayout(context);
     ll.setOrientation(LinearLayout.VERTICAL);
     if (array.length() == 0) {
@@ -71,7 +75,7 @@ public class Questionnaire {
     return finished;
   }
 
-  private View createQuestion(final LinearLayout ll, final JSONArray array, final int step) throws JSONException {
+  private View createQuestion(final LinearLayout ll, final JSONArray array, final int step) throws JSONException, InstantiationException {
     if (array.length() == step) { //anchor
       //finish activity
       finished = true;
@@ -82,9 +86,21 @@ public class Questionnaire {
     }
 
     JSONObject json = (JSONObject) array.getJSONObject(step);
-    QuestionLayout qlayoutBuilder = layoutBuilders.get(json.getString(QuestionLayout.JSON_KEY_TYPE));
+    QuestionLayout qlayoutBuilder = createQuestionLayoutInstance(json.getString(QuestionLayout.JSON_KEY_TYPE));
+    
     if (qlayoutBuilder == null) {
-      qlayoutBuilder = new QuestionLayout(context, logging) {
+      qlayoutBuilder = createDefaultQuestionLayout();
+    }
+    BasisQuestionEntity questionEntity = qlayoutBuilder.getQuestion(json);
+    addTextView(ll, questionEntity.getQuestion(), 18);
+    addTextView(ll, questionEntity.getInstruction(), 12);
+    qlayoutBuilder.createQuestionLayout(ll, questionEntity);
+    addButton(qlayoutBuilder, questionEntity, ll, array, step);
+    return ll;
+  }
+  
+  private QuestionLayout createDefaultQuestionLayout() {
+    return new QuestionLayout(context, logging) {
         @Override
         public LinearLayout addQuestionLayout(LinearLayout ll,
                 BasisQuestionEntity basis,
@@ -103,13 +119,26 @@ public class Questionnaire {
           return "";
         }
       };
+  }
+  
+  private QuestionLayout createQuestionLayoutInstance(String type) throws InstantiationException {
+    QuestionLayout qlayoutBuilder = null;
+    Class<? extends QuestionLayout> layoutClass = layoutBuilders.get(type);
+    if (layoutClass != null) {
+      try {
+        Constructor ctor = layoutClass.getConstructor(Context.class, AnswerLogging.class);
+        qlayoutBuilder = (QuestionLayout) ctor.newInstance(context, logging);
+      } catch (NoSuchMethodException ex) {
+        Logger.getLogger(Questionnaire.class.getName()).log(Level.SEVERE, null, ex);
+      } catch (IllegalAccessException ex) {
+        Logger.getLogger(Questionnaire.class.getName()).log(Level.SEVERE, null, ex);
+      } catch (IllegalArgumentException ex) {
+        Logger.getLogger(Questionnaire.class.getName()).log(Level.SEVERE, null, ex);
+      } catch (InvocationTargetException ex) {
+        Logger.getLogger(Questionnaire.class.getName()).log(Level.SEVERE, null, ex);
+      }
     }
-    BasisQuestionEntity questionEntity = qlayoutBuilder.getQuestion(json);
-    addTextView(ll, questionEntity.getQuestion(), 18);
-    addTextView(ll, questionEntity.getInstruction(), 12);
-    qlayoutBuilder.createQuestionLayout(ll, questionEntity);
-    addButton(qlayoutBuilder, questionEntity, ll, array, step);
-    return ll;
+    return qlayoutBuilder;
   }
 
   private void addButton(final QuestionLayout layoutBuilder,
@@ -126,6 +155,8 @@ public class Questionnaire {
           createQuestion(ll, array, step + 1); //recursion
         } catch (JSONException ex) {
           Log.e(Questionnaire.class.getName(), ex.getMessage(), ex);
+        } catch (InstantiationException ex) {
+          Logger.getLogger(Questionnaire.class.getName()).log(Level.SEVERE, null, ex);
         }
       }
     });
