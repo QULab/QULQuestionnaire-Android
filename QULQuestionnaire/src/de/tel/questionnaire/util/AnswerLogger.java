@@ -40,8 +40,8 @@ public class AnswerLogger implements AnswerLogging {
   public static final String QUESTION_JSON_KEY = "q";
   public static final String ANSWER_JSON_KEY = "a";
   
-  private JSONObject log;
-  private JSONArray data;
+  private final JSONObject log;
+  private final JSONArray data;
 
   public AnswerLogger() {
     log = new JSONObject();
@@ -64,7 +64,7 @@ public class AnswerLogger implements AnswerLogging {
   }
   
   
-  public void addValueToJSON(JSONObject json, String key, String value) {
+  public void addValueToJSON(JSONObject json, String key, Object value) {
     if (key == null || value == null)
       return;
     
@@ -77,7 +77,7 @@ public class AnswerLogger implements AnswerLogging {
 
   public String getAnswerLog() {
     if (!log.has(DATA_JSON_KEY)) {
-      addValueToJSON(log, DATA_JSON_KEY, data.toString());
+      addValueToJSON(log, DATA_JSON_KEY, data);
     }
     return log.toString();
   }
