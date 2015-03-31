@@ -28,6 +28,7 @@ import java.util.Date;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import static org.json.JSONObject.NULL;
 
 /**
  *
@@ -79,10 +80,20 @@ public class AnswerLogger implements AnswerLogging {
     data.put(json);
   }
   
-  
+  /**
+   * Adds the key-value pair to the given json object.
+   * 
+   * @param json the json object which gets the new key-value pair
+   * @param key the json key which will be saved with the value
+   * @param value the value for the json key can be a String, a Number, 
+   *               other JSONObject or Arrary or NULL.
+   */
   public void addValueToJSON(JSONObject json, String key, Object value) {
-    if (key == null || value == null)
+    if (key == null)
       return;
+    
+    if (value == null)
+      value = NULL;
     
     try {
       json.put(key, value);
