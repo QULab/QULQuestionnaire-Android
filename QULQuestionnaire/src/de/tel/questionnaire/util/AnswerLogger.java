@@ -61,7 +61,6 @@ public class AnswerLogger implements AnswerLogging {
   }
   
   private String getDateInFormat() {
-    
     return DATE_FORMAT.format(new Date());
   }
   
