@@ -23,6 +23,7 @@
 package de.tel.questionnaire.util;
 
 import android.util.Log;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +41,17 @@ public class AnswerLogger implements AnswerLogging {
   public static final String QUESTION_JSON_KEY = "q";
   public static final String ANSWER_JSON_KEY = "a";
   
+  /**
+   * Date format as RFC 822
+   * yyyy-MM-dd'T'HH:mm:ssZ e.g. 2015-03-31T10:49:58+0200
+   * 
+   * ISO 8601 will be:
+   * YYYY-MM-DDThh:mm:ssTZD e.g. 2015-03-24T08:58:30+01:00
+   * but is not supported in this current java version
+   * yyyy-MM-dd'T'HH:mm:ssXXX would be the correct string.
+   */
+  public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"); 
+  
   private final JSONObject log;
   private final JSONArray data;
 
@@ -48,12 +60,17 @@ public class AnswerLogger implements AnswerLogging {
     data = new JSONArray();
   }
   
+  private String getDateInFormat() {
+    
+    return DATE_FORMAT.format(new Date());
+  }
+  
   public void setStart() {
-    addValueToJSON(log, START_JSON_KEY, Long.toString(new Date().getTime()));
+    addValueToJSON(log, START_JSON_KEY, getDateInFormat());
   }
 
   public void setEnd() {
-    addValueToJSON(log, END_JSON_KEY, Long.toString(new Date().getTime()));
+    addValueToJSON(log, END_JSON_KEY, getDateInFormat());
   }
 
   public void addAnswer(String question, String answer) {
