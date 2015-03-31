@@ -26,7 +26,6 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -52,7 +51,6 @@ public class TextLayout extends QuestionLayout {
   protected static final String INPUT_TYPE_EMAIL = "email";
   protected static final String INPUT_TYPE_NUMBER = "number";
   private static final HashMap<String, Integer> INPUT_TYPES = new HashMap<String, Integer>();
-  private String answer;
 
   static {
     INPUT_TYPES.put(INPUT_TYPE_TEXT, InputType.TYPE_CLASS_TEXT);
@@ -109,8 +107,6 @@ public class TextLayout extends QuestionLayout {
   }
 
   private void submitText(String question, String value, final Button next) {
-    Log.d(TextLayout.class.getName(), value);
-//    logging.addAnswer(question, value);
     answer = value;
     next.setVisibility(View.VISIBLE);
   }
@@ -118,11 +114,6 @@ public class TextLayout extends QuestionLayout {
   @Override
   public String getType() {
     return QUESTION_TYPE_TEXT;
-  }
-
-  @Override
-  public String getLastGivenAnswer() {
-    return answer;
   }
 
   @Override

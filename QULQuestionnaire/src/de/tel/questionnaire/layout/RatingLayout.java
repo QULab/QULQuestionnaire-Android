@@ -23,7 +23,6 @@
 package de.tel.questionnaire.layout;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -42,7 +41,6 @@ public class RatingLayout extends QuestionLayout {
 
   
   public static final String QUESTION_TYPE_RATING = "smiley";
-  private String answer;
   
   public RatingLayout(Context context, AnswerLogging logging) {
     super(context, logging);
@@ -62,10 +60,7 @@ public class RatingLayout extends QuestionLayout {
     ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
       public void onRatingChanged(RatingBar bar, float rating, boolean fromUser) {
-        String rate = Float.toString(rating);
-        Log.d(RatingLayout.class.getName(), rate);
-        answer = rate;
-//        logging.addAnswer(basis.getKey(), rate);
+        answer = rating;
         next.setVisibility(View.VISIBLE);
       }
     });
@@ -78,16 +73,9 @@ public class RatingLayout extends QuestionLayout {
   public String getType() {
     return QUESTION_TYPE_RATING;
   }
-
-  @Override
-  public String getLastGivenAnswer() {
-    return answer;
-  }
   
   @Override
   protected BasisQuestionEntity getQuestion(JSONObject json) throws JSONException {
     return super.getQuestion(json);
   }
-  
-  
 }

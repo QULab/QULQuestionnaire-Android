@@ -35,7 +35,6 @@ import de.tel.questionnaire.entities.CheckboxOption;
 import de.tel.questionnaire.entities.CheckboxQuestionEntity;
 import de.tel.questionnaire.util.AnswerLogging;
 import java.util.HashSet;
-import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,15 +46,10 @@ import org.json.JSONObject;
 public class CheckboxLayout extends QuestionLayout {
 
   public static final String QUESTION_TYPE_CHECKBOX = "checkbox";
-
-  /**
-   * Contains the check box answers which are clicked by the user.
-   */
-  private final Set<String> answers;
   
   public CheckboxLayout(Context context, AnswerLogging logging) {
     super(context, logging);
-    answers = new HashSet<String>();
+    answer = new HashSet<String>();
   }
   
   @Override
@@ -80,11 +74,11 @@ public class CheckboxLayout extends QuestionLayout {
         public void onCheckedChanged(CompoundButton arg0, boolean isChecked) {
           Log.d(CheckboxLayout.class.getName(), arg0.getText().toString());
           if (isChecked)
-            answers.add(arg0.getText().toString());
+            ((HashSet<String>) answer).add(arg0.getText().toString());
           else
-            answers.remove(arg0.getText().toString());
+            ((HashSet<String>) answer).remove(arg0.getText().toString());
           
-          if (answers.size() > 0)
+          if (((HashSet<String>) answer).size() > 0)
             next.setVisibility(View.VISIBLE);
           else
             next.setVisibility(View.GONE);
@@ -102,9 +96,9 @@ public class CheckboxLayout extends QuestionLayout {
   }
 
   @Override
-  public String getLastGivenAnswer() {
+  public Object getLastGivenAnswer() {
     JSONArray array = new JSONArray();
-    for (String str : answers) {
+    for (String str : ((HashSet<String>) answer)) {
       array.put(str);
     }
     return array.toString();

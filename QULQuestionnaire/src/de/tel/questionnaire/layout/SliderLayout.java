@@ -23,7 +23,6 @@
 package de.tel.questionnaire.layout;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -41,8 +40,6 @@ import org.json.JSONObject;
 public class SliderLayout extends QuestionLayout {
 
   public static final String QUESTION_TYPE_SLIDER = "slider";
-  
-  private String answer;
   
   public SliderLayout(Context context, AnswerLogging logging) {
     super(context, logging);
@@ -70,10 +67,7 @@ public class SliderLayout extends QuestionLayout {
       }
 
       public void onStopTrackingTouch(SeekBar bar) {
-        int progress = bar.getProgress();
-        Log.d(SliderLayout.class.getName(), Integer.toString(progress));
-        answer = Integer.toString(progress);
-//        logging.addAnswer(sliderQuestion.getKey(), Integer.toString(progress));
+        answer = bar.getProgress();
         next.setVisibility(View.VISIBLE);
       }
     });
@@ -84,11 +78,6 @@ public class SliderLayout extends QuestionLayout {
   @Override
   public String getType() {
     return QUESTION_TYPE_SLIDER;
-  }
-
-  @Override
-  public String getLastGivenAnswer() {
-    return answer;
   }
   
   @Override

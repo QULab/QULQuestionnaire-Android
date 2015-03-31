@@ -70,6 +70,7 @@ public abstract class QuestionLayout {
   
   protected Context context;
   protected AnswerLogging logging;
+  protected Object answer;
   
   public QuestionLayout(Context context, AnswerLogging logging) {
     this.context = context;
@@ -95,7 +96,10 @@ public abstract class QuestionLayout {
   }
   
   public abstract String getType();
-  public abstract String getLastGivenAnswer();
+  
+  public Object getLastGivenAnswer() {
+    return answer;
+  }
   
   protected BasisQuestionEntity getQuestion(JSONObject json) throws JSONException {
     BasisQuestionEntity basis = new BasisQuestionEntity(json.getString(JSON_KEY_KEY),

@@ -43,10 +43,8 @@ import org.json.JSONObject;
  * @author Christopher Zell <zelldon91@googlemail.com>
  */
 public class RadioLayout extends QuestionLayout {
-
   
   public static final String QUESTION_TYPE_RADIO = "radio";
-  private String answer;
   
   public RadioLayout(Context context, AnswerLogging logging) {
     super(context, logging);
@@ -85,10 +83,7 @@ public class RadioLayout extends QuestionLayout {
       public void onCheckedChanged(RadioGroup arg0, int arg1) {
         int radioButtonID = arg0.getCheckedRadioButtonId();
         RadioButton v = (RadioButton) arg0.findViewById(radioButtonID);
-        String idx = Integer.toString(arg0.indexOfChild(v));
-        Log.d(RadioLayout.class.getName(), idx);
-        answer = idx;
-//        logging.addAnswer(radioQuestion.getKey(), idx);
+        answer = arg0.indexOfChild(v);
         next.setVisibility(View.VISIBLE);
       }
     });
@@ -110,11 +105,6 @@ public class RadioLayout extends QuestionLayout {
   @Override
   public String getType() {
     return QUESTION_TYPE_RADIO;
-  }
-
-  @Override
-  public String getLastGivenAnswer() {
-    return answer;
   }
   
   

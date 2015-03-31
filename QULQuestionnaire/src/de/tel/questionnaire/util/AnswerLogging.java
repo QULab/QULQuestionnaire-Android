@@ -29,7 +29,7 @@ package de.tel.questionnaire.util;
 public interface AnswerLogging {
   void setStart();
   void setEnd();
-  void addAnswer(String question, String answer);
+  void addAnswer(String question, Object answer);
   String getAnswerLog();
   
 }

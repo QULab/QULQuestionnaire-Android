@@ -72,7 +72,7 @@ public class AnswerLogger implements AnswerLogging {
     addValueToJSON(log, END_JSON_KEY, getDateInFormat());
   }
 
-  public void addAnswer(String question, String answer) {
+  public void addAnswer(String question, Object answer) {
     JSONObject json = new JSONObject();
     addValueToJSON(json, QUESTION_JSON_KEY, question);
     addValueToJSON(json, ANSWER_JSON_KEY, answer);
